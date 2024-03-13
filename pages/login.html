@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex-direction: column; /* Thay đổi hướng hiển thị của container */
+        }
+
+        .material-symbols-outlined {
+            background-color: rgb(206, 4, 206);
+            border-radius: 50%;
+            font-size: 30px;
+            color: white;
+            padding: 1%;
+            margin-bottom: 10px;
+        }
+
+        .input {
+            height: 30px;
+            width: 280px;
+            margin-bottom: 15px;
+        }
+
+        .square {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .child {
+            width: 280px;
+            height: 30px;
+            margin-bottom: 15px;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            margin-right: 200px;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* CSS cho phần hiển thị sau khi đăng nhập thành công */
+        .success-message {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .home-button {
+            background-color: rgb(45, 48, 231);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <form class="square">
+        <div class="container">
+            <span class="material-symbols-outlined">lock</span>
+            <a style="font-size: 18px;margin-bottom: 10px;" >Sign in</a>
+            <div class="">
+                <label for=""></label>
+                <input class="child" type="email" id="email" placeholder="Email Address*" required>
+            </div>
+            <div class="">
+                <label for=""></label>
+                <input class="child" type="password" id="password" placeholder="Password*" required>
+            </div>
+            <div class="box">
+                    <div><input type="checkbox"></div>
+                    <div><span class="text">Remember me</span><br>
+                        <span class="text"></span></div>
+            </div>
+            <button id="signInButton" type="submit" style="width: 280px;background-color: rgb(69, 69, 247);"><span style="font-size: 10px;color:white;">SIGN IN</span></button>
+
+            <div class="item">
+                <a href="./password.html" id="forgotPasswordLink"><p id="message" style="font-size: 10px; color: rgba(65, 65, 255, 0.63);">Forgot password</p></a>
+                <a href="./register.html" id="signUpLink"><p id="message" style="font-size: 10px; color: rgba(65, 65, 255, 0.63);margin-left: 65px;">Don't have an account?Sign up</p></a>
+            </div>
+            <div class="success-message" id="successMessage">
+                <p>Đăng nhập thành công!</p>
+                <button class="home-button" id="homeButton">Home</button>
+            </div>
+            <p style="font-size: 10px;"> Coppyright &copy; <a href="">YourWebsite</a> 2024.</p>
+        </div>
+    </form>
+    <script>
+        document.getElementById('signInButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+            let user = formDataArray.find(user => user.email === email && user.password === password);
+            if (user) {
+                localStorage.setItem('userName', user.firstName);
+                document.getElementById('successMessage').style.display = 'block';
+            } else {
+                alert('Email hoặc mật khẩu không chính xác!');
+            }
+        });
+        document.getElementById('homeButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            window.location.href = './index.html';
+        });
+        
+    </script>
+</body>
+</html>
