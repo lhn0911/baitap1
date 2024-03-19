@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Table</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h2>Giỏ hàng</h2>
+
+<table id="cartTable" border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Hành động</th>
+            <th>Mã giảm</th> <!-- Thêm cột cho mã giảm giá -->
+            <th>Tổng tiền</th>
+        </tr>
+    </thead>
+    <tbody id="cartList">
+        <!-- Dữ liệu giỏ hàng sẽ được đổ vào đây -->
+    </tbody>
+</table>
+
+<script>
+    // Lấy ID của người dùng đang đăng nhập từ local storage
+    let userId = localStorage.getItem('id');
+
+    // Lấy dữ liệu giỏ hàng của người dùng từ local storage
+    let users = JSON.parse(localStorage.getItem("users"));
+
+    // Tìm người dùng hiện tại
+    let currentUser = users.find(user => user.id === userId);
+
+    // Kiểm tra nếu người dùng hiện tại tồn tại và giỏ hàng của họ không rỗng
+    if (currentUser && currentUser.cart.length > 0) {
+        // Lặp qua từng sản phẩm trong giỏ hàng và thêm vào bảng
+        currentUser.cart.forEach(product => {
+            addProductToCart(product);
+        });
+    }
+
+    // Hàm để thêm một sản phẩm vào giỏ hàng
+    // Hàm để thêm một sản phẩm vào giỏ hàng
+function addProductToCart(product) {
+    let tableBody = document.getElementById("cartList");
+    let row = tableBody.insertRow();
+
+    let idCell = row.insertCell(0);
+    idCell.textContent = product.id;
+
+    let nameCell = row.insertCell(1);
+    nameCell.textContent = product.name;
+
+    let priceCell = row.insertCell(2);
+    priceCell.textContent = product.price;
+
+    let quantityCell = row.insertCell(3);
+    quantityCell.textContent = product.quantity;
+
+    let actionCell = row.insertCell(4);
+    let decreaseButton = document.createElement("button");
+    decreaseButton.textContent = "-";
+    decreaseButton.onclick = function() {
+        decreaseQuantity(row);
+    };
+    let increaseButton = document.createElement("button");
+    increaseButton.textContent = "+";
+    increaseButton.onclick = function() {
+        increaseQuantity(row);
+    };
+    actionCell.appendChild(decreaseButton);
+    actionCell.appendChild(increaseButton);
+
+    let couponCell = row.insertCell(5); // Thêm cột cho mã giảm giá
+    couponCell.textContent = product.coupon; // Hiển thị mã giảm giá
+
+    let totalCell = row.insertCell(6);
+    totalCell.textContent = product.price * product.quantity;
+}
+
+
+    // Hàm để giảm số lượng sản phẩm
+    function decreaseQuantity(row) {
+        let quantityCell = row.cells[3];
+        let quantity = parseInt(quantityCell.textContent);
+        if (quantity > 1) {
+            quantity--;
+            quantityCell.textContent = quantity;
+            updateTotal(row);
+        }
+    }
+
+    // Hàm để tăng số lượng sản phẩm
+    function increaseQuantity(row) {
+        let quantityCell = row.cells[3];
+        let quantity = parseInt(quantityCell.textContent);
+        quantity++;
+        quantityCell.textContent = quantity;
+        updateTotal(row);
+    }
+
+    // Hàm cập nhật tổng tiền khi thay đổi số lượng
+    function updateTotal(row) {
+        let priceCell = row.cells[2];
+        let quantityCell = row.cells[3];
+        let totalCell = row.cells[6];
+        let price = parseFloat(priceCell.textContent);
+        let quantity = parseInt(quantityCell.textContent);
+        totalCell.textContent = (price * quantity).toFixed(2); // Giữ hai chữ số sau dấu thập phân
+    }
+</script>
+</body>
+</html>

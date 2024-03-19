@@ -118,24 +118,27 @@
         </div>
     </form>
     <script>
-        document.getElementById('signInButton').addEventListener('click', function(event) {
-            event.preventDefault();
-            let email = document.getElementById('email').value;
-            let password = document.getElementById('password').value;
-            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
-            let user = formDataArray.find(user => user.email === email && user.password === password);
-            if (user) {
-                localStorage.setItem('userName', user.firstName);
-                document.getElementById('successMessage').style.display = 'block';
-            } else {
-                alert('Email hoặc mật khẩu không chính xác!');
-            }
-        });
-        document.getElementById('homeButton').addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = './index.html';
-        });
-        
+document.getElementById('signInButton').addEventListener('click', function(event) {
+    event.preventDefault();
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+    let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+    let user = formDataArray.find(user => user.email === email && user.password === password);
+    if (user) {
+        localStorage.setItem('userName', user.firstName);
+        localStorage.setItem('id', user.id);
+
+        // Lưu giỏ hàng của người dùng dưới dạng một đối tượng
+        document.getElementById('successMessage').style.display = 'block';
+    } else {
+        alert('Email hoặc mật khẩu không chính xác!');
+    }
+});
+
+document.getElementById('homeButton').addEventListener('click', function(event) {
+    event.preventDefault();
+    window.location.href = './index.html';
+});
     </script>
 </body>
 </html>

@@ -45,9 +45,9 @@
                 <li><a href="#">Dịch vụ</a></li>
                 <li><a id="registerLink" href="./register.html">Đăng ký</a></li>
                 <li><a id="loginLink" href="./login.html">Đăng nhập</a></li>
-                <li id="userLink" style="display: none;"><a href="#"><span id="firstname"></span></a></li>
+                <li id="userLink" style="display: none; width: 50px;margin-bottom: -5px;"><span id="firstname"></span></li>
                 <li><a id="userlogout" style="display: none;" href="#">Đăng xuất</a></li>                
-                <li id="shop" style="display: none;"><a href="#"><span class="material-symbols-outlined">shopping_cart</span></a></li>
+                <button onclick="shop()" id="shop" style="display: none;border: 0 px;"><a href="#"><span class="material-symbols-outlined">shopping_cart</span></a></button>
             </ul>
         </nav>
     </header>
@@ -56,180 +56,105 @@
         <span>GỢI Ý HÔM NAY</span>
     </div>
     <!-- main -->
-    <main>
+    <main id="main1" >
         <div class="container">
-            <div class="sanpham">
-                <a href="./home1.html">
-                    <img class="img" src="../asset/imgs/quan.jpg">
-                    <div class="sale">-10%</div>
-                    <span class="detail">Chi tiết</span>
-                </a>
-                <div class="thongtin">
-                    <div>Loại</div>
-                    <div><b>Quần jean</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Giá</div>
-                    <div><b>150.000đ</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Hỗ trợ</div>
-                    <div><b>Đổi trả</b></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <!--  -->
-            <div class="sanpham">
-                <a href="#">
-                    <img class="img" src="../asset/imgs/quan.jpg">
-                    <div class="sale">-10%</div>
-                    <span class="detail">Chi tiết</span>
-                </a>
-                <div class="thongtin">
-                    <div>Loại</div>
-                    <div><b>Quần jean</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Giá</div>
-                    <div><b>150.000đ</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Hỗ trợ</div>
-                    <div><b>Đổi trả</b></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <!--  -->
-            <div class="sanpham">
-                <a href="#">
-                    <img class="img" src="../asset/imgs/quan.jpg">
-                    <div class="sale">-10%</div>
-                    <span class="detail">Chi tiết</span>
-                </a>
-                <div class="thongtin">
-                    <div>Loại</div>
-                    <div><b>Quần jean</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Giá</div>
-                    <div><b>150.000đ</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Hỗ trợ</div>
-                    <div><b>Đổi trả</b></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <!--  -->
-            <div class="sanpham">
-                <a href="#">
-                    <img class="img" src="../asset/imgs/quan.jpg">
-                    <div class="sale">-10%</div>
-                    <span class="detail">Chi tiết</span>
-                </a>
-                <div class="thongtin">
-                    <div>Loại</div>
-                    <div><b>Quần jean</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Giá</div>
-                    <div><b>150.000đ</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Hỗ trợ</div>
-                    <div><b>Đổi trả</b></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <!--  -->
-            <div class="sanpham">
-                <a href="#">
-                    <img class="img" src="../asset/imgs/quan.jpg">
-                    <div class="sale">-10%</div>
-                    <span class="detail">Chi tiết</span>
-                </a>
-                <div class="thongtin">
-                    <div>Loại</div>
-                    <div><b>Quần jean</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Giá</div>
-                    <div><b>150.000đ</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Hỗ trợ</div>
-                    <div><b>Đổi trả</b></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <!--  -->
-            <div class="sanpham">
-                <a href="#">
-                    <img class="img" src="../asset/imgs/quan.jpg">
-                    <div class="sale">-10%</div>
-                    <span class="detail">Chi tiết</span>
-                </a>
-                <div class="thongtin">
-                    <div>Loại</div>
-                    <div><b>Quần jean</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Giá</div>
-                    <div><b>150.000đ</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Hỗ trợ</div>
-                    <div><b>Đổi trả</b></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <!--  -->
-            <div class="sanpham">
-                <a href="#">
-                    <img class="img" src="../asset/imgs/quan.jpg">
-                    <div class="sale">-10%</div>
-                    <span class="detail">Chi tiết</span>
-                </a>
-                <div class="thongtin">
-                    <div>Loại</div>
-                    <div><b>Quần jean</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Giá</div>
-                    <div><b>150.000đ</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Hỗ trợ</div>
-                    <div><b>Đổi trả</b></div>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <!--  -->
-            <div class="sanpham">
-                <a href="#">
-                    <img class="img" src="../asset/imgs/quan.jpg">
-                    <div class="sale">-10%</div>
-                    <span class="detail">Chi tiết</span>
-                </a>
-                <div class="thongtin">
-                    <div>Loại</div>
-                    <div><b>Quần jean</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Giá</div>
-                    <div><b>150.000đ</b></div>
-                </div>
-                <div class="thongtin">
-                    <div>Hỗ trợ</div>
-                    <div><b>Đổi trả</b></div>
-                </div>
-                <div class="clear"></div>
-            </div>
         </div>
     </main>
+    <!-- main2 -->
+    <main  class="main2" id="main2" style="display: none;">
+            <div class="products">
+                <div class="product">
+                    <img style="height: 400px;" id="header-img" src="../asset/imgs/quan.jpg" alt="">
+                    <div class="footer">
+                        <ul id="imgs"></ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="ttsanpham">
+            <h1><i class="fa-regular fa-star"></i>Quần jean ống rộng</h1>
+        </div>
+        <div class="muasanpham">
+            <span>Đánh giá:<span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span>| lượt bán: 100 | lượt đánh giá : 10000</span>
+            <p>Mã giảm giá: 
+                <button onclick="applyCoupon(5)">5%</button> 
+                <button onclick="applyCoupon(10)">10%</button> 
+                <button onclick="applyCoupon(15)">15%</button> 
+                <button onclick="applyCoupon(20)">20%</button>
+            </p>
+            
+            <script>
+            function applyCoupon(couponValue) {
+                localStorage.setItem("coupon", couponValue); // Lưu giá trị giảm giá vào localStorage
+            }
+            </script>
+                        
+            <p>Vận chuyển : <img style="margin-bottom: -10px;" src="../asset/imgs/freeship.png" width="40px">Miễn phí vận chuyển</p>
+            <p>Màu sắc: 
+                <label for="white">
+                    <input id="white" name="color" type="radio">Trắng
+                </label>
+                <label for="blue">
+                    <input id="blue" name="color" type="radio">Xanh
+                </label>
+                <label for="black">
+                    <input id="black" name="color" type="radio">Đen
+                </label>
+            </p>
+            
+            <p>Size:
+                <label for="">
+                    <input name="size" type="radio">S</input>
+                </label>
+                <label for="">
+                    <input name="size" type="radio">M</input>
+                </label>
+                <label for="">
+                    <input name="size" type="radio">L</input>
+                </label>
+                <label for="">
+                    <input name="size" type="radio">XL</input>
+                </label>
+                <label for="">
+                    <input name="size" type="radio">Khác</input>
+                </label>
+            </p>
+            <button onclick="poppups()" ><p style="color: black;font-size: 15px;">Bảng quy đổi kích cỡ</p></button>
+
+                <p>Số lượng: 
+                    <button onclick="decreaseQuantity()">-</button>
+                    <span id="quantity">1</span>
+                    <button onclick="increaseQuantity()">+</button>
+                </p>
+ 
+            <script>
+                function increaseQuantity() {
+                    let quantityElement = document.getElementById('quantity');
+                    let quantity = parseInt(quantityElement.innerText);
+                    quantity++;
+                    quantityElement.innerText = quantity;
+                    localStorage.setItem("quantity", JSON.stringify(quantity)); // Lưu số lượng vào localStorage
+                }
+
+                function decreaseQuantity() {
+                    let quantityElement = document.getElementById('quantity');
+                    let quantity = parseInt(quantityElement.innerText);
+                    if (quantity > 1) {
+                        quantity--;
+                        quantityElement.innerText = quantity;
+                        localStorage.setItem("quantity", JSON.stringify(quantity)); // Lưu số lượng vào localStorage
+                    }
+                }
+
+            </script>     
+            <button class="addToCartBtn" id="addToCartButton" onclick="addToCart(1)">Thêm vào giỏ</button>
+            <button class="deleteCart" onclick="deleteCart()">Mua ngay</button>
+        </div>
+    </main>
+    
     <!-- footer -->
-    <footer>
-        <div>Công ty TNHH 1 thành viên HOANGNAM Việt Nam. Mã số DN: 000000000. Tòa nhà PTIT, km10,Hà Đông, Hà Nội</div>
+    <footer>0TIT, km10,Hà Đông, Hà Nội</div>
         <p>&copy; 2024 Shop uy tín giá rẻ</p>
         <div class="hoidap">
             <a href="" class="lienhe">Chính sách bảo mật</a>
@@ -237,7 +162,7 @@
             <a href="" class="lienhe">Chính sách vận chuyển</a>
             <a href="" class="lienhe">Chính sách trả hàng và hoàn tiền</a>
         </div>
-        <a href="./index.html">
+        <a href="#">
             <div class="uytin">
                 <img src="../asset/imgs/logoCCDV.png" width="90px">
                 <img src="../asset/imgs/logoCCDV.png" width="90px">
@@ -277,14 +202,17 @@
             <button style="background-color: orangered;color: white;border: 0;"><i class="fa-brands fa-twitter"> twitter</i></button>
         </div>
         <div class="hotrokh3">
-            <span class="material-symbols-outlined">two_wheeler</span>
-            <span class="material-symbols-outlined">local_shipping</span>
-            <span class="material-symbols-outlined">flight_takeoff</span>
-            <span class="material-symbols-outlined">rocket_launch</span>
-            <span class="material-symbols-outlined">sailing</span>
+            <span class="material-symbols-outlined">two_wheeler <span style="font-size: 10px;">Moto Ship</span></span>
+            <span class="material-symbols-outlined">local_shipping <span style="font-size: 10px;">Car Ship</span></span>
+            <span class="material-symbols-outlined">flight_takeoff <span style="font-size: 10px;">Fly ship</span></span>
+            <span class="material-symbols-outlined">rocket_launch <span style="font-size: 10px;">R0cket Ship</span></span>
+            <span class="material-symbols-outlined">sailing <span style="font-size: 10px;">Boat Ship</span></span>
         </div>
     </footer>
     <script src="../js/index.js"></script>
+    <script src="../js/home1.js"></script>
+    <script src="../js/login.js"></script>
+    <script src="../js/register.js"></script>
     <script src="https://kit.fontawesome.com/1eb546f010.js" crossorigin="anonymous"></script>
 </body>
 </html>

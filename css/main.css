@@ -42,3 +42,73 @@
     box-sizing: border-box;
     text-align: center;
 }
+.products {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 500px;
+}
+
+.product {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.addToCartBtn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+
+.anhsp{
+    width: auto;
+    height: 300px;
+}
+.footer ul {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    list-style: none;
+    margin-left: -30px;
+}
+.footer ul li {
+    width: 50px; 
+    height: 50px;
+}
+.footer ul li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+}
+.ttsanpham{
+    position: absolute; /* Sử dụng position absolute */
+    top: 150px; /* Đặt vị trí top ở phía trên cách 20px từ phần tử góc trên bên trái của phần tử cha */
+    left: 50%; /* Di chuyển sang giữa theo chiều ngang */
+    transform: translateX(-50%); /* Dịch chuyển ngược lại 50% chiều ngang để căn giữa */
+    text-align: center; /* Căn giữa nội dung */
+    width: 100%; /
+}
+.muasanpham{
+
+    position: absolute; /* Sử dụng position absolute cho phần muasanpham */
+    top: calc(100% + 20px); /* Đặt vị trí top ở dưới cùng của phần chứa và cách nó một khoảng 20px */
+    left: 88%; /* Di chuyển sang giữa theo chiều ngang */
+    transform: translateX(-50%); /* Dịch chuyển ngược lại 50% chiều ngang để căn giữa */
+     /* Căn giữa nội dung */
+    width: 100%; /* Đảm bảo chiều rộng tối đa */
+    margin-top: -450px; /* Khoảng cách giữa phần muasanpham và phần trên nó */
+
+}
