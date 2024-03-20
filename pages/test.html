@@ -3,117 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart Table</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Shopclothes.vn</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="https://fontawesome.com/icons/shop?f=sharp&s=solid">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        .text {
+            text-align: center;
+        }
+        .table {
+            margin-left: 200px;
+        }
+        .table1 {
+            margin-left: 500px;
+        }
+        .buy {
+            background-color: rgb(76, 184, 252);
+            margin-left: 780px;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <a href="./index.html">
+            <img src="../asset/imgs/logo.png" class="shoplogo" alt="">
+            <img src="../asset/imgs/Screenshot_2024-03-11_114655-removebg-preview.png" class="logo" alt="">
+        </a>
+        <div class="search-container">
+            <input type="text" placeholder="search..." class="search-input square">
+            <a href="#" class="search-icon"><span class="material-symbols-outlined">search</span></a>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="./index.html">Trang chủ</a></li>
+                <li><a href="#">Dịch vụ</a></li>
+                <li><a id="registerLink" href="./register.html">Đăng ký</a></li>
+                <li><a id="loginLink" href="./login.html">Đăng nhập</a></li>
+                <li id="userLink" style="display: none; width: 50px;margin-bottom: -5px;"><span id="firstname"></span></li>
+                <li><a id="userlogout" style="display: none;" href="#">Đăng xuất</a></li>                
+                <button onclick="shop()" id="shop" style="display: none;border: 0 px;"><a href="#"><span class="material-symbols-outlined">shopping_cart</span></a></button>
+            </ul>
+        </nav>
+    </header>
+    <!-- main1 -->
+    <main id="home1">
+        <h2 class="table1">Giỏ hàng</h2>
 
-<h2>Giỏ hàng</h2>
+    <table id="cartTable" border="1" class="table">
+        <thead>
+            <tr style="text-align: center;">
+                 <!-- Ô checkbox -->
+                <th>ID</th>
+                <th>Tên sản phẩm</th>
+                <th>Ảnh</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Hành động</th>
+                <th>Mã giảm giá</th>
+                <th>Thành tiền</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="cartList">
+            <!-- Dữ liệu giỏ hàng sẽ được đổ vào đây -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="8" style="text-align: right;">Tổng giá tiền:</td>
+                <td id="totalPrice"></td> <!-- Dòng tổng giá tiền -->
+            </tr>
+        </tfoot>
+    </table>
+    <button class="buy" onclick="submit()">Đặt hàng</button>
 
-<table id="cartTable" border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Tên sản phẩm</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
-            <th>Hành động</th>
-            <th>Mã giảm</th> <!-- Thêm cột cho mã giảm giá -->
-            <th>Tổng tiền</th>
-        </tr>
-    </thead>
-    <tbody id="cartList">
-        <!-- Dữ liệu giỏ hàng sẽ được đổ vào đây -->
-    </tbody>
-</table>
-
-<script>
-    // Lấy ID của người dùng đang đăng nhập từ local storage
-    let userId = localStorage.getItem('id');
-
-    // Lấy dữ liệu giỏ hàng của người dùng từ local storage
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    // Lấy dữ liệu từ local storage
     let users = JSON.parse(localStorage.getItem("users"));
 
-    // Tìm người dùng hiện tại
-    let currentUser = users.find(user => user.id === userId);
-
-    // Kiểm tra nếu người dùng hiện tại tồn tại và giỏ hàng của họ không rỗng
-    if (currentUser && currentUser.cart.length > 0) {
-        // Lặp qua từng sản phẩm trong giỏ hàng và thêm vào bảng
-        currentUser.cart.forEach(product => {
-            addProductToCart(product);
+    // Kiểm tra xem liệu có dữ liệu trong local storage không
+    if (users && users.length > 0 && users[0].cart) {
+        // Lặp qua từng mục trong cart và thêm vào tbody
+        let tbody = document.getElementById("cartList");
+        users[0].cart.forEach((product, index) => {
+            let row = document.createElement("tr");
+            row.innerHTML = `
+                    
+                        <td class="text">${index + 1}</td>
+                        <td class="text">${product.name}</td>
+                        <td class="text"><img src="${product.img}" alt="${product.name}" style="width: 100px; height:60px; object-fit: cover;"></td>
+                        <td class="text">${product.price}</td>
+                        <td class="text">${product.quantity}</td>
+                        <td class="text">
+                            <button onclick="increaseQuantity(${index})">+</button>
+                            <button onclick="decreaseQuantity(${index})">-</button>
+                        </td>
+                        <td class="text">${product.coupon}</td>
+                        <td class="text">${calculateTotal(product)}</td>
+                        <td class="text"><input type="checkbox" id="checkbox${index}" onchange="calculateTotalPrice()"></td>
+                    `;
+            tbody.appendChild(row);
         });
+
+        // Thiết lập trạng thái mặc định cho checkbox
+        setCheckboxState();
+
+        // Tính tổng giá tiền khi tải trang
+        calculateTotalPrice();
+    } else {
+        console.log("Không tìm thấy dữ liệu hoặc cart trong dữ liệu.");
     }
+});
 
-    // Hàm để thêm một sản phẩm vào giỏ hàng
-    // Hàm để thêm một sản phẩm vào giỏ hàng
-function addProductToCart(product) {
-    let tableBody = document.getElementById("cartList");
-    let row = tableBody.insertRow();
+        function calculateTotalPrice() {
+    let total = 0;
+    let checkboxes = document.querySelectorAll('#cartTable tbody input[type="checkbox"]');
+    checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+            let row = checkbox.parentNode.parentNode;
+            let productPrice = parseFloat(row.getElementsByTagName('td')[7].innerText);
+            total += productPrice;
+        }
+    });
+    document.getElementById("totalPrice").innerText = total.toFixed(2);
 
-    let idCell = row.insertCell(0);
-    idCell.textContent = product.id;
-
-    let nameCell = row.insertCell(1);
-    nameCell.textContent = product.name;
-
-    let priceCell = row.insertCell(2);
-    priceCell.textContent = product.price;
-
-    let quantityCell = row.insertCell(3);
-    quantityCell.textContent = product.quantity;
-
-    let actionCell = row.insertCell(4);
-    let decreaseButton = document.createElement("button");
-    decreaseButton.textContent = "-";
-    decreaseButton.onclick = function() {
-        decreaseQuantity(row);
-    };
-    let increaseButton = document.createElement("button");
-    increaseButton.textContent = "+";
-    increaseButton.onclick = function() {
-        increaseQuantity(row);
-    };
-    actionCell.appendChild(decreaseButton);
-    actionCell.appendChild(increaseButton);
-
-    let couponCell = row.insertCell(5); // Thêm cột cho mã giảm giá
-    couponCell.textContent = product.coupon; // Hiển thị mã giảm giá
-
-    let totalCell = row.insertCell(6);
-    totalCell.textContent = product.price * product.quantity;
+    // Lưu tổng giá tiền vào local storage
+    localStorage.setItem("totalPrice", total.toFixed(2));
 }
 
-
-    // Hàm để giảm số lượng sản phẩm
-    function decreaseQuantity(row) {
-        let quantityCell = row.cells[3];
-        let quantity = parseInt(quantityCell.textContent);
-        if (quantity > 1) {
-            quantity--;
-            quantityCell.textContent = quantity;
-            updateTotal(row);
+ // Hàm tăng số lượng
+ function increaseQuantity(index) {
+            let users = JSON.parse(localStorage.getItem("users"));
+            users[0].cart[index].quantity++; 
+            localStorage.setItem("users", JSON.stringify(users));
+            location.reload(); // Tải lại trang để cập nhật giỏ hàng
         }
-    }
 
-    // Hàm để tăng số lượng sản phẩm
-    function increaseQuantity(row) {
-        let quantityCell = row.cells[3];
-        let quantity = parseInt(quantityCell.textContent);
-        quantity++;
-        quantityCell.textContent = quantity;
-        updateTotal(row);
-    }
+        // Hàm giảm số lượng
+        function decreaseQuantity(index) {
+            let users = JSON.parse(localStorage.getItem("users"));
+            if(users[0].cart[index].quantity > 1) { 
+                users[0].cart[index].quantity--; 
+                localStorage.setItem("users", JSON.stringify(users));
+                location.reload(); // Tải lại trang để cập nhật giỏ hàng
+            }
+        }
 
-    // Hàm cập nhật tổng tiền khi thay đổi số lượng
-    function updateTotal(row) {
-        let priceCell = row.cells[2];
-        let quantityCell = row.cells[3];
-        let totalCell = row.cells[6];
-        let price = parseFloat(priceCell.textContent);
-        let quantity = parseInt(quantityCell.textContent);
-        totalCell.textContent = (price * quantity).toFixed(2); // Giữ hai chữ số sau dấu thập phân
-    }
-</script>
+
+        // Hàm tính thành tiền
+        function calculateTotal(product) {
+            let price = parseFloat(product.price);
+            let quantity = parseInt(product.quantity);
+            let coupon = parseInt(product.coupon);
+            let totalPrice = price * quantity;
+            if (coupon) {
+                let discount = (totalPrice * coupon) / 100;
+                return totalPrice - discount;
+            } else {
+                return totalPrice;
+            }
+        }
+        function setCheckboxState() {
+    let checkboxes = document.querySelectorAll('#cartTable tbody input[type="checkbox"]');
+    checkboxes.forEach((checkbox, index) => {
+        checkbox.checked = true; // Đặt mặc định là checked
+    });
+}
+function submit(){
+    window.open("popups.html", "popup", "width=400,height=400");
+}
+    </script>
+    </main>
+    <!-- main2 -->
+    <main id="home2" style="display: none;">
+
+    </main>
+    <footer>
+        <div>Công ty TNHH 1 thành viên HOANGNAM Việt Nam. Mã số DN: 000000000. Tòa nhà PTIT, km10,Hà Đông, Hà Nội</div>
+            <p>&copy; 2024 Shop uy tín giá rẻ</p>
+            <div class="hoidap">
+                <a href="" class="lienhe">Chính sách bảo mật</a>
+                <a href="" class="lienhe">Quy chế hoạt động</a>
+                <a href="" class="lienhe">Chính sách vận chuyển</a>
+                <a href="" class="lienhe">Chính sách trả hàng và hoàn tiền</a>
+            </div>
+            <a href="#">
+                <div class="uytin">
+                    <img src="../asset/imgs/logoCCDV.png" width="90px">
+                    <img src="../asset/imgs/logoCCDV.png" width="90px">
+                </div>
+            </a>
+            <div class="chitiet">
+                <span class="material-symbols-outlined">undo</span><span class="vanchuyen">hoàn trả hàng miễn phí trong 7 ngày</span>
+                <span class="material-symbols-outlined">check</span><span class="vanchuyen">Hàng chính hãng 100%</span>
+                <span class="material-symbols-outlined">local_shipping</span><span class="vanchuyen">Miễn phí vận chuyển giao hàng miễn phí toàn quốc</span>
+            </div>
+            <div class="chamsoc">
+                <h3>Chăm sóc khách hàng</h3>
+                <h3>Về chúng tôi</h3>
+                <h3>Theo dõi chúng tôi qua</h3>
+                <h3>Đơn vị vận chuyển</h3>
+            </div>
+            <div class="hotrokh">
+                <a href="" style="color: white;">Trung tâm trợ giúp</a>
+                <a href="" style="color: white;">Hướng dẫn mua hàng</a>
+                <a href="" style="color: white;">Hướng dẫn bán hàng</a>
+                <a href="" style="color: white;">trả hàng & hoàn tiền</a>
+                <a href="" style="color: white;">vận chuyển</a>
+                <a href="" style="color: white;">chăm sóc khách hàng</a>
+                <a href="" style="color: white;">chính sách bảo hàng</a>
+            </div>
+            <div class="hotrokh1">
+                <a href="" style="color: white;">Điều khoản</a>
+                <a href="" style="color: white;">Chính sách bảo mật</a>
+                <a href="" style="color: white;">Chính hãng</a>
+                <a href="" style="color: white;">Kênh người bán</a>
+                <a href="" style="color: white;">Liên hệ với truyền thông</a>
+            </div>
+            <div class="hotrokh2">
+                <button style="background-color: orangered;color: white;border: 0;"><i class="fa-brands fa-facebook"> facebook</i></button>
+                <button style="background-color: orangered;color: white;border: 0;" ><i class="fa-brands fa-tiktok"> tiktok</i></button>
+                <button style="background-color: orangered;color: white;border: 0;"><i class="fa-brands fa-instagram"> instagram</i></button>
+                <button style="background-color: orangered;color: white;border: 0;"><i class="fa-brands fa-twitter"> twitter</i></button>
+            </div>
+            <div class="hotrokh3">
+                <span class="material-symbols-outlined">two_wheeler <span style="font-size: 10px;">Moto Ship</span></span>
+                <span class="material-symbols-outlined">local_shipping <span style="font-size: 10px;">Car Ship</span></span>
+                <span class="material-symbols-outlined">flight_takeoff <span style="font-size: 10px;">Fly ship</span></span>
+                <span class="material-symbols-outlined">rocket_launch <span style="font-size: 10px;">R0cket Ship</span></span>
+                <span class="material-symbols-outlined">sailing <span style="font-size: 10px;">Boat Ship</span></span>
+            </div>
+    </footer>
+    <script src="../js/index.js"></script>
+    <script src="../js/home1.js"></script>
+    <script src="../js/login.js"></script>
+    <script src="../js/register.js"></script>
+<script src="https://kit.fontawesome.com/1eb546f010.js" crossorigin="anonymous"></script>
 </body>
 </html>

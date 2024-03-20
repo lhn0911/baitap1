@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            height: auto;
+            background-color: rgb(223, 168, 168);
+            padding: 20px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="email"], input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        #qrCode {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="orderSummary">
+            <h2>Tóm tắt đơn hàng</h2>
+            <p>Tổng số tiền: <span id="totalPrice"></span> VND</p>
+        </div>
+        <h2>Thông tin thanh toán</h2>
+        <form id="paymentForm">
+            <label for="fullname">Họ và tên:</label>
+            <input type="text" id="fullname" name="fullname" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="address">Địa chỉ:</label>
+            <input type="text" id="address" name="address" required>
+            
+            <label for="choices">Chọn phương thức thanh toán:</label>
+            <select id="choices" name="choices" onchange="togglePaymentMethod()">
+                <option value="option1">Thanh toán khi nhận hàng</option>
+                <option value="option2">Thanh toán qua thẻ tín dụng, ghi nợ</option>
+                <option value="option3">Thanh toán qua ATM Banking</option>
+            </select>
+            <br>
+            <br>
+
+            <div id="cardDetails" style="display: none;">
+                <label for="cardnumber">Số thẻ</label>
+                <input type="text" id="cardnumber" name="cardnumber" required>
+
+                <label for="expirydate">Ngày hết hạn:</label>
+                <input type="text" id="expirydate" name="expirydate" required>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required>
+            </div>
+            
+            <div id="qrCode" style="display: none;">
+                <img src="../asset/imgs/qr.jpg" width="100px">
+                <button style="margin-left: 10px;" onclick="qr()">quét</button>
+            </div>
+            
+            <button  onclick="xacnhan()" id="confirmButton" >Xác nhận</button>
+        </form>       
+    </div>
+
+    <script>
+        function xacnhan() {
+    // Kiểm tra nếu phương thức thanh toán là qua thẻ tín dụng
+    let selectedPaymentMethod = document.getElementById("choices").value;
+    if (selectedPaymentMethod === "option2") {
+        let cardNumber = document.getElementById("cardnumber").value;
+        let expiryDate = document.getElementById("expirydate").value;
+        let cvv = document.getElementById("cvv").value;
+        // Kiểm tra xem tất cả các trường thông tin thẻ tín dụng đã được nhập hay chưa
+        if (cardNumber && expiryDate && cvv) {
+            alert('Đặt hàng thành công');
+        } else {
+            alert('Vui lòng nhập đầy đủ thông tin thẻ tín dụng');
+        }
+    } else {
+        alert('Đặt hàng thành công');
+        window.open('index.html')
+    }
+}
+
+
+function qr() {
+    // Giả sử mã QR được quét thành công
+    let qrSuccess = true;
+
+    if (qrSuccess) {
+        alert('Quét QR thành công');
+        document.getElementById("confirmButton").style.display = "block";
+        document.getElementById("qrCode").style.display = "none"; // Ẩn phần quét mã QR
+    } else {
+        alert('Quét QR không thành công');
+    }
+}
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Tính tổng số tiền
+            calculateTotalPrice();
+
+            // Đổ dữ liệu từ localStorage vào các trường thông tin thanh toán
+            populatePaymentInfo();
+            let cardDetailsInputs = document.querySelectorAll("#cardDetails input");
+    cardDetailsInputs.forEach(input => {
+        input.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                // Do nothing or handle other behaviors here
+            }
+        });
+    });
+        });
+
+        // Hàm tính tổng số tiền
+        function calculateTotalPrice() {
+            // Lấy tổng số tiền từ localStorage
+            let totalPrice = localStorage.getItem("totalPrice");
+            if (totalPrice) {
+                document.getElementById("totalPrice").innerText = totalPrice;
+            }
+        }
+
+        // Hàm đổ dữ liệu từ localStorage vào các trường thông tin thanh toán
+        function populatePaymentInfo() {
+            // Lấy thông tin người mua từ localStorage
+            let userBuy = JSON.parse(localStorage.getItem("userBuy"));
+            if (userBuy) {
+                // Đổ dữ liệu vào các trường thông tin
+                document.getElementById("fullname").value = userBuy.fullName;
+                document.getElementById("email").value = userBuy.email;
+                document.getElementById("address").value = userBuy.address;
+            }
+        }
+
+        // Hàm điều khiển sự hiển thị của các phần tử dựa trên phương thức thanh toán được chọn
+        function togglePaymentMethod() {
+            let selectedPaymentMethod = document.getElementById("choices").value;
+            let cardDetails = document.getElementById("cardDetails");
+            let qrCode = document.getElementById("qrCode");
+            let confirmButton = document.getElementById("confirmButton");
+
+            if (selectedPaymentMethod === "option1") {
+                cardDetails.style.display = "none";
+                qrCode.style.display = "none";
+                confirmButton.style.display = "block";
+            } else if(selectedPaymentMethod === "option2"){
+                cardDetails.style.display = "block";
+                qrCode.style.display = "none";
+                
+            } else {
+                cardDetails.style.display = "none";
+                qrCode.style.display = "block";
+                confirmButton.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

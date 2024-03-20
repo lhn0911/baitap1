@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .child {
+            display: flex;
+            flex-direction: column; /* Sắp xếp các thành phần thành hàng dọc */
+            gap: 10px; /* Khoảng cách giữa các thành phần */
+        }
+        .child label {
+            margin-bottom: 5px; /* Khoảng cách giữa các nhãn và ô nhập */
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div class="child">
+            <h2>Đặt hàng</h2>
+            <label for="fullName">Họ và tên:</label>
+            <input type="text" id="fullName" placeholder="Nhập...">
+            <label for="phoneNumber">Số điện thoại:</label>
+            <input type="text" id="phoneNumber" placeholder="Nhập...">
+            <label for="email">Email:</label>
+            <input type="text" id="email" placeholder="Nhập...">
+            <label for="address">Địa chỉ nhận hàng:</label>
+            <input type="text" id="address" placeholder="Nhập...">
+            <label for="note">Ghi chú:</label>
+            <input type="text" id="note" placeholder="Nhập...">
+        </div>
+        <button style="background-color: rgb(232, 18, 18);" onclick="submitForm()">Thanh toán</button>
+    </form>
+    <script>
+        function submitForm() {
+            // Lấy giá trị từ các trường nhập
+            let fullName = document.getElementById('fullName').value;
+            let phoneNumber = document.getElementById('phoneNumber').value;
+            let address = document.getElementById('address').value;
+            let note = document.getElementById('note').value;
+            let email = document.getElementById('email').value;
+
+            // Tạo một object chứa thông tin người dùng
+            let userBuy = {
+                fullName: fullName,
+                phoneNumber: phoneNumber,
+                email: email,
+                address: address,
+                note: note
+            };
+
+            // Lưu thông tin người dùng vào localStorage
+            localStorage.setItem('userBuy', JSON.stringify(userBuy));
+
+            // Chuyển hướng sang trang thanh toán
+            window.open("thanhtoan.html");
+        }
+    </script>
+</body>
+</html>

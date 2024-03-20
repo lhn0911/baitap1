@@ -69,7 +69,6 @@
                         <ul id="imgs"></ul>
                     </div>
                 </div>
-                
             </div>
         </div>
         <div class="ttsanpham">
@@ -123,7 +122,7 @@
             <button onclick="poppups()" ><p style="color: black;font-size: 15px;">Bảng quy đổi kích cỡ</p></button>
 
                 <p>Số lượng: 
-                    <button onclick="decreaseQuantity()">-</button>
+                    <button onclick="decreaseQuantity(this.parentNode.parentNode)">-</button>
                     <span id="quantity">1</span>
                     <button onclick="increaseQuantity()">+</button>
                 </p>
@@ -152,9 +151,10 @@
             <button class="deleteCart" onclick="deleteCart()">Mua ngay</button>
         </div>
     </main>
-    
+    <!-- main 3 -->
     <!-- footer -->
-    <footer>0TIT, km10,Hà Đông, Hà Nội</div>
+    <footer>
+    <div>Công ty TNHH 1 thành viên HOANGNAM Việt Nam. Mã số DN: 000000000. Tòa nhà PTIT, km10,Hà Đông, Hà Nội</div>
         <p>&copy; 2024 Shop uy tín giá rẻ</p>
         <div class="hoidap">
             <a href="" class="lienhe">Chính sách bảo mật</a>

@@ -3,11 +3,12 @@ function chek(){
     document.getElementById('main1').style.display = 'none';
 }
 
-// function shop(){
-//     document.getElementById('main2').style.display = 'none';
-//     document.getElementById('main1').style.display = 'none';
-//     document.getElementById('main3').style.display = 'inline-blockz
-// }
+function shop(){
+    // document.getElementById('main2').style.display = 'none';
+    // document.getElementById('main1').style.display = 'none';
+    // document.getElementById('main3').style.display = 'inline-block';
+    window.open('test.html');
+}
 let data = ["../asset/imgs/quan1.jpg","../asset/imgs/quan2.jpg","../asset/imgs/quan3.jpg","../asset/imgs/quan4.jpg",'../asset/imgs/quan.jpg'];
 
 let headerImg = document.getElementById("header-img");
@@ -85,7 +86,6 @@ function addToCart(productId) {
         console.log("Số lượng không hợp lệ.");
         return;
     }
-
     // Lấy danh sách người dùng từ localStorage
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -105,7 +105,9 @@ function addToCart(productId) {
                 id: product.id,
                 name: product.name,
                 price: product.price,
-                quantity: selectedQuantity
+                quantity: selectedQuantity,
+                coupon: product.coupon,
+                img : product.image,
             });
         }
     } else {
@@ -117,7 +119,8 @@ function addToCart(productId) {
                 name: product.name,
                 price: product.price,
                 quantity: selectedQuantity,
-                coupon:localStorage.getItem("coupon")
+                coupon:localStorage.getItem('coupon'),
+                img : product.image,
             }]
         });
     }
