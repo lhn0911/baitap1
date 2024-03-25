@@ -60,8 +60,8 @@ let selectedQuantity = 1; // Số lượng sản phẩm được chọn mặc đ
 
 function addToCart(productId) {
     // Kiểm tra xem người dùng đã đăng nhập chưa
-    let userId = localStorage.getItem('id');
-    if (!userId) {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser || !currentUser.id) {
         console.log("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
         return;
     }
@@ -86,14 +86,9 @@ function addToCart(productId) {
         console.log("Số lượng không hợp lệ.");
         return;
     }
-    // Lấy danh sách người dùng từ localStorage
-    let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    // Tìm người dùng hiện tại
-    let currentUser = users.find(user => user.id === userId);
-
-    // Nếu người dùng đã tồn tại
-    if (currentUser) {
+    // Nếu currentUser đã có giỏ hàng, thêm sản phẩm vào giỏ hàng
+    if (currentUser.cart) {
         // Tìm sản phẩm trong giỏ hàng của người dùng
         let existingProduct = currentUser.cart.find(item => item.id === productId);
         if (existingProduct) {
@@ -107,28 +102,26 @@ function addToCart(productId) {
                 price: product.price,
                 quantity: selectedQuantity,
                 coupon: product.coupon,
-                img : product.image,
+                img: product.image,
             });
         }
     } else {
-        // Nếu người dùng chưa tồn tại, thêm người dùng mới với giỏ hàng chứa sản phẩm
-        users.push({
-            id: userId,
-            cart: [{
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                quantity: selectedQuantity,
-                coupon:localStorage.getItem('coupon'),
-                img : product.image,
-            }]
-        });
+        // Nếu currentUser chưa có giỏ hàng, tạo mới giỏ hàng và thêm sản phẩm vào đó
+        currentUser.cart = [{
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: selectedQuantity,
+            coupon: product.coupon,
+            img: product.image,
+        }];
     }
 
-    // Lưu lại danh sách người dùng vào localStorage
-    localStorage.setItem("users", JSON.stringify(users));
+    // Cập nhật thông tin của currentUser trong localStorage
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
     console.log("Sản phẩm đã được thêm vào giỏ hàng của người dùng.");
 }
+
 
 
 function poppups(){

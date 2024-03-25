@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .lock-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+
+        .edit-btn, .delete-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Management</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Locked</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <!-- User data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Load user data from localStorage and render the table
+            renderUserTable();
+
+            // Add event listeners for Lock, Edit, Delete, and Save buttons
+            document.getElementById("userTableBody").addEventListener("click", function(event) {
+                let target = event.target;
+                if (target.classList.contains("lock-btn")) {
+                    toggleLock(parseInt(target.dataset.index));
+                } else if (target.classList.contains("edit-btn")) {
+                    editUser(parseInt(target.dataset.index));
+                } else if (target.classList.contains("delete-btn")) {
+                    deleteUser(parseInt(target.dataset.index));
+                } else if (target.classList.contains("save-btn")) {
+                    saveUser(parseInt(target.dataset.index));
+                }
+            });
+        });
+
+        function renderUserTable() {
+            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+            let userTableBody = document.getElementById("userTableBody");
+
+            formDataArray.forEach(function (user, index) {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${user.firstName}</td>
+                    <td>${user.lastName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.lock}</td>
+                    <td>
+                        <button class="lock-btn" data-index="${index}">${user.lock === 'yes' ? 'Unlock' : 'Lock'}</button>
+                        <button class="edit-btn" data-index="${index}">Edit</button>
+                        <button class="delete-btn" data-index="${index}">Delete</button>
+                        <button class="save-btn" data-index="${index}" style="display: none;">Save</button>
+                    </td>
+                `;
+                userTableBody.appendChild(row);
+            });
+        }
+
+        function toggleLock(index) {
+            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+            let user = formDataArray[index];
+            user.lock = user.lock === 'yes' ? 'no' : 'yes'; // Toggle lock status
+            localStorage.setItem('formDataArray', JSON.stringify(formDataArray));
+
+            // Update the table with the new lock status
+            let userTableBody = document.getElementById("userTableBody");
+            let row = userTableBody.rows[index];
+            row.cells[4].innerText = user.lock;
+
+            // Change button text
+            let lockBtn = row.cells[5].querySelector('.lock-btn');
+            lockBtn.innerText = user.lock === 'yes' ? 'Unlock' : 'Lock';
+        }
+
+        function editUser(index) {
+            let userTableBody = document.getElementById("userTableBody");
+            let row = userTableBody.rows[index];
+
+            // Hide Edit button and show Save button
+            row.cells[5].querySelector('.edit-btn').style.display = 'none';
+            row.cells[5].querySelector('.save-btn').style.display = 'inline';
+
+            // Replace text with input fields for editing
+            for (let i = 1; i < 4; i++) {
+                let cell = row.cells[i];
+                let currentValue = cell.innerText;
+                cell.innerHTML = `<input class="input-field" type="text" value="${currentValue}">`;
+            }
+        }
+
+        function saveUser(index) {
+            let userTableBody = document.getElementById("userTableBody");
+            let row = userTableBody.rows[index];
+            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+
+            // Update user information
+            let user = formDataArray[index];
+            for (let i = 1; i < 4; i++) {
+                let newValue = row.cells[i].querySelector('input').value;
+                user[[ 'firstName', 'lastName', 'email' ][i - 1]] = newValue;
+            }
+
+            // Save updated data to local storage
+            localStorage.setItem('formDataArray', JSON.stringify(formDataArray));
+
+            // Reload the page to reflect changes
+            location.reload();
+        }
+
+        function deleteUser(index) {
+            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+            formDataArray.splice(index, 1); // Remove user from array
+            localStorage.setItem('formDataArray', JSON.stringify(formDataArray));
+
+            // Remove row from table
+            let userTableBody = document.getElementById("userTableBody");
+            userTableBody.deleteRow(index);
+        }
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,20 +126,30 @@ document.getElementById('signInButton').addEventListener('click', function(event
     let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
     let user = formDataArray.find(user => user.email === email && user.password === password);
     if (user) {
-        localStorage.setItem('userName', user.firstName);
-        localStorage.setItem('id', user.id);
+        // Tạo đối tượng người dùng
+        let currentUser = {
+            id: user.id,
+            firstName: user.firstName,
+            email: user.email,
+            cart : [],
+            // Thêm thông tin khác nếu cần thiết
+        };
 
-        // Lưu giỏ hàng của người dùng dưới dạng một đối tượng
+        // Lưu đối tượng người dùng vào localStorage với key "currentUser"
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Hiển thị thông báo đăng nhập thành công và thực hiện các hành động tiếp theo
         document.getElementById('successMessage').style.display = 'block';
     } else {
         alert('Email hoặc mật khẩu không chính xác!');
     }
 });
 
-document.getElementById('homeButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    window.location.href = './index.html';
-});
+
+        document.getElementById('homeButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            window.location.href = './index.html';
+        });
     </script>
 </body>
 </html>

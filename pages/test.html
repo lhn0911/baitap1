@@ -27,6 +27,7 @@
 </head>
 <body>
     <header>
+       
         <a href="./index.html">
             <img src="../asset/imgs/logo.png" class="shoplogo" alt="">
             <img src="../asset/imgs/Screenshot_2024-03-11_114655-removebg-preview.png" class="logo" alt="">
@@ -62,7 +63,6 @@
                 <th>Giá</th>
                 <th>Số lượng</th>
                 <th>Hành động</th>
-                <th>Mã giảm giá</th>
                 <th>Thành tiền</th>
                 <th></th>
             </tr>
@@ -72,7 +72,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8" style="text-align: right;">Tổng giá tiền:</td>
+                <td colspan="6" style="text-align: right;">Tổng giá tiền:</td>
                 <td id="totalPrice"></td> <!-- Dòng tổng giá tiền -->
             </tr>
         </tfoot>
@@ -80,31 +80,31 @@
     <button class="buy" onclick="submit()">Đặt hàng</button>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     // Lấy dữ liệu từ local storage
-    let users = JSON.parse(localStorage.getItem("users"));
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-    // Kiểm tra xem liệu có dữ liệu trong local storage không
-    if (users && users.length > 0 && users[0].cart) {
+    // Kiểm tra xem người dùng đã đăng nhập chưa và có giỏ hàng không
+    if (currentUser && currentUser.cart) {
         // Lặp qua từng mục trong cart và thêm vào tbody
         let tbody = document.getElementById("cartList");
-        users[0].cart.forEach((product, index) => {
+        currentUser.cart.forEach((product, index) => {
             let row = document.createElement("tr");
             row.innerHTML = `
-                    
-                        <td class="text">${index + 1}</td>
-                        <td class="text">${product.name}</td>
-                        <td class="text"><img src="${product.img}" alt="${product.name}" style="width: 100px; height:60px; object-fit: cover;"></td>
-                        <td class="text">${product.price}</td>
-                        <td class="text">${product.quantity}</td>
-                        <td class="text">
-                            <button onclick="increaseQuantity(${index})">+</button>
-                            <button onclick="decreaseQuantity(${index})">-</button>
-                        </td>
-                        <td class="text">${product.coupon}</td>
-                        <td class="text">${calculateTotal(product)}</td>
-                        <td class="text"><input type="checkbox" id="checkbox${index}" onchange="calculateTotalPrice()"></td>
-                    `;
+                <td class="text">${index + 1}</td>
+                <td class="text">${product.name}</td>
+                <td class="text"><img src="${product.img}" alt="${product.name}" style="width: 100px; height:60px; object-fit: cover;"></td>
+                <td class="text">${product.price}</td>
+                <td class="text">${product.quantity}</td>
+                <td class="text">
+                    <button onclick="increaseQuantity(${index})">+</button>
+                    <button onclick="decreaseQuantity(${index})">-</button>
+                    <button onclick="removeItem(${index})">Xóa</button>
+                </td>
+                
+                <td class="text">${calculateTotal(product)}</td>
+                <td class="text"><input type="checkbox" id="checkbox${index}" onchange="calculateTotalPrice()"></td>
+            `;
             tbody.appendChild(row);
         });
 
@@ -117,14 +117,21 @@
         console.log("Không tìm thấy dữ liệu hoặc cart trong dữ liệu.");
     }
 });
-
-        function calculateTotalPrice() {
+ // hàm xóa sản phẩm
+ function removeItem(index) {
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    currentUser.cart.splice(index, 1); // Xóa sản phẩm khỏi giỏ hàng
+    localStorage.setItem("currentUser", JSON.stringify(currentUser)); // Cập nhật giỏ hàng trên local storage
+    location.reload(); // Tải lại trang để cập nhật giỏ hàng
+}
+// Hàm tính tổng giá tiền của giỏ hàng
+function calculateTotalPrice() {
     let total = 0;
     let checkboxes = document.querySelectorAll('#cartTable tbody input[type="checkbox"]');
     checkboxes.forEach((checkbox, index) => {
         if (checkbox.checked) {
             let row = checkbox.parentNode.parentNode;
-            let productPrice = parseFloat(row.getElementsByTagName('td')[7].innerText);
+            let productPrice = parseFloat(row.getElementsByTagName('td')[6].innerText);
             total += productPrice;
         }
     });
@@ -134,47 +141,54 @@
     localStorage.setItem("totalPrice", total.toFixed(2));
 }
 
- // Hàm tăng số lượng
- function increaseQuantity(index) {
-            let users = JSON.parse(localStorage.getItem("users"));
-            users[0].cart[index].quantity++; 
-            localStorage.setItem("users", JSON.stringify(users));
-            location.reload(); // Tải lại trang để cập nhật giỏ hàng
-        }
+// Hàm tăng số lượng sản phẩm trong giỏ hàng
+function increaseQuantity(index) {
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    currentUser.cart[index].quantity++;
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    location.reload(); // Tải lại trang để cập nhật giỏ hàng
+}
 
-        // Hàm giảm số lượng
-        function decreaseQuantity(index) {
-            let users = JSON.parse(localStorage.getItem("users"));
-            if(users[0].cart[index].quantity > 1) { 
-                users[0].cart[index].quantity--; 
-                localStorage.setItem("users", JSON.stringify(users));
-                location.reload(); // Tải lại trang để cập nhật giỏ hàng
-            }
-        }
+// Hàm giảm số lượng sản phẩm trong giỏ hàng
+function decreaseQuantity(index) {
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (currentUser.cart[index].quantity > 1) {
+        currentUser.cart[index].quantity--;
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        location.reload(); // Tải lại trang để cập nhật giỏ hàng
+    }
+}
 
+// Hàm tính tổng thành tiền của một sản phẩm
+function calculateTotal(product) {
+    let price = parseFloat(product.price);
+    let quantity = parseInt(product.quantity);
+    let totalPrice = price * quantity;
+    return totalPrice;
+}
 
-        // Hàm tính thành tiền
-        function calculateTotal(product) {
-            let price = parseFloat(product.price);
-            let quantity = parseInt(product.quantity);
-            let coupon = parseInt(product.coupon);
-            let totalPrice = price * quantity;
-            if (coupon) {
-                let discount = (totalPrice * coupon) / 100;
-                return totalPrice - discount;
-            } else {
-                return totalPrice;
-            }
-        }
-        function setCheckboxState() {
+// Hàm đặt trạng thái mặc định cho checkbox
+function setCheckboxState() {
     let checkboxes = document.querySelectorAll('#cartTable tbody input[type="checkbox"]');
     checkboxes.forEach((checkbox, index) => {
         checkbox.checked = true; // Đặt mặc định là checked
     });
 }
-function submit(){
-    window.open("popups.html", "popup", "width=400,height=400");
+
+// Hàm khi người dùng nhấn nút Đặt hàng
+// Hàm khi người dùng nhấn nút Đặt hàng
+function submit() {
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (currentUser && currentUser.cart && currentUser.cart.length > 0) {
+        // Giỏ hàng không trống, thực hiện thanh toán
+        window.open("popups.html", "popup", "width=400,height=400");
+    } else {
+        // Giỏ hàng trống, thông báo
+        alert("Có cái dell gì đâu mà mua!");
+    }
 }
+
+
     </script>
     </main>
     <!-- main2 -->
@@ -236,11 +250,10 @@ function submit(){
                 <span class="material-symbols-outlined">rocket_launch <span style="font-size: 10px;">R0cket Ship</span></span>
                 <span class="material-symbols-outlined">sailing <span style="font-size: 10px;">Boat Ship</span></span>
             </div>
-    </footer>
-    <script src="../js/index.js"></script>
-    <script src="../js/home1.js"></script>
-    <script src="../js/login.js"></script>
-    <script src="../js/register.js"></script>
-<script src="https://kit.fontawesome.com/1eb546f010.js" crossorigin="anonymous"></script>
-</body>
+        </footer>
+        <script src="../js/index.js"></script>
+        <script src="../js/home1.js"></script>
+        <script src="../js/login.js"></script>
+        <script src="../js/register.js"></script>
+        <script src="https://kit.fontawesome.com/1eb546f010.js" crossorigin="anonymous"></script>
 </html>

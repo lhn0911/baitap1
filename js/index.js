@@ -5,7 +5,8 @@
 //         price:"199000",
 //         id:1,
 //         sale:"5%",
-//         coupon:"8"
+//         size:["S","L","M","XL","2XL"],
+//         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
 //         image:"../asset/imgs/bo1.jpg",
@@ -13,7 +14,8 @@
 //         price:"175000",
 //         id:2,
 //         sale:"10%",
-//         coupon:"7",
+//         size:["S","L","M","XL","2XL"],
+//         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
 //         image:"../asset/imgs/b1.jpg",
@@ -21,7 +23,8 @@
 //         price:"500000",
 //         id:3,
 //         sale:"15%",
-//         coupon:"55",
+//         size:["S","L","M","XL","2XL"],
+//         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
 //         image:"../asset/imgs/c1.jpg",
@@ -29,7 +32,8 @@
 //         price:"250000",
 //         id:4,
 //         sale:"18%",
-//         coupon:"50",
+//         size:["S","L","M","XL","2XL"],
+//         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
 //         image:"../asset/imgs/cb1.jpg",
@@ -37,7 +41,9 @@
 //         price:"100000",
 //         id:5,
 //         sale:"20%",
-//         coupon:"10",
+
+//         size:["S","L","M","XL","2XL"],
+//         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
 //         image:"../asset/imgs/quan.jpg",
@@ -45,7 +51,8 @@
 //         price:"120000",
 //         id:6,
 //         sale:"45%",
-//         coupon:"6",
+//         size:["S","L","M","XL","2XL"],
+//         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
 //         image:"../asset/imgs/set1.jpg",
@@ -53,7 +60,8 @@
 //         price:"200000",
 //         id:7,
 //         sale:"50%",
-//         coupon:"4",
+//         size:["S","L","M","XL","2XL"],
+//         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
 //         image:"../asset/imgs/comboo1.jpg",
@@ -61,7 +69,8 @@
 //         price:"150000",
 //         id:8,
 //         sale:"90%",
-//         coupon:"5",
+//         size:["S","L","M","XL","2XL"],
+//         color:["Đen","Trắng","Xanh"],
 //     },
 // ]
 // localStorage.setItem("products", JSON.stringify(products));
@@ -79,7 +88,8 @@ function renderProducts(){
                 
                     <img class="img" src="${products[i].image}">
                     <div class="sale">${products[i].sale}</div>
-                    <span class="detail"><button onclick="chek()">Chi tiết</button></span>
+                    <span class="detail"><button onclick="showProductDetail(${products[i].id})">Chi tiết</button></span>
+
                 
                 <div class="thongtin">
                     <p>Loại</p>
@@ -158,7 +168,7 @@ function renderProducts(){
         </div>
         `;
     }
-    console.log(element)
+    // console.log(element)
     document.getElementsByClassName('container')[0].innerHTML=element;
 }
 renderProducts();
