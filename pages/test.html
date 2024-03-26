@@ -80,6 +80,10 @@
     <button class="buy" onclick="submit()">Đặt hàng</button>
 
     <script>
+        function submit(){
+            window.open("popups.html", "popup", "width=400,height=400");
+}
+        
         document.addEventListener("DOMContentLoaded", function () {
             // Lấy dữ liệu từ local storage
             let currentUser = JSON.parse(localStorage.getItem("currentUser"));

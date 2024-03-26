@@ -102,10 +102,14 @@
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
     if (firstName && lastName && email && password) {
+        if (email === 'admin@gmail.com') {
+            alert('Email admin@gmail.com không thể được sử dụng.');
+            return; // Dừng xử lý tiếp theo nếu email là admin@gmail.com
+        }
         let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
         let emailExists = formDataArray.some(data => data.email === email);
         if (emailExists) {
-            alert('Email đã được sử dụng,vui lòng nhập email khác.');
+            alert('Email đã được sử dụng, vui lòng nhập email khác.');
         } else {
             let formData = {
                 firstName: firstName,

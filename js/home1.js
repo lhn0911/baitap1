@@ -7,7 +7,7 @@ function shop(){
     // document.getElementById('main2').style.display = 'none';
     // document.getElementById('main1').style.display = 'none';
     // document.getElementById('main3').style.display = 'inline-block';
-    window.open('test.html');
+    window.location.href="test.html";
 }
 let data = ["../asset/imgs/quan1.jpg","../asset/imgs/quan2.jpg","../asset/imgs/quan3.jpg","../asset/imgs/quan4.jpg",'../asset/imgs/quan.jpg'];
 
@@ -58,8 +58,24 @@ function changeMainImage(index) {
 
 let selectedQuantity = 1; // Số lượng sản phẩm được chọn mặc định là 1
 
+function checkLockStatus() {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.lock === 'yes') {
+        // Hiển thị thông báo cho người dùng và đăng xuất tự động
+        alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm thông tin.');
+        localStorage.removeItem('currentUser'); // Đăng xuất tự động bằng cách xóa thông tin người dùng đang đăng nhập
+        window.location.href = './login.html'; // Chuyển hướng người dùng đến trang đăng nhập
+        return false; // Ngăn chặn thực hiện hành động tiếp theo
+    }
+    return true; // Cho phép thực hiện hành động tiếp theo
+}
+
 function addToCart(productId) {
-    // Kiểm tra xem người dùng đã đăng nhập chưa
+    // Kiểm tra xem người dùng đã đăng nhập chưa và xem tài khoản có bị khóa không
+    if (!checkLockStatus()) {
+        return; // Nếu tài khoản bị khóa, dừng hàm và không thực hiện thêm sản phẩm vào giỏ hàng
+    }
+
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser || !currentUser.id) {
         console.log("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
@@ -121,6 +137,17 @@ function addToCart(productId) {
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
     console.log("Sản phẩm đã được thêm vào giỏ hàng của người dùng.");
 }
+function checkLockStatusOnLoad() {
+    // Kiểm tra trạng thái khóa của tài khoản khi trang được tải lại
+    if (!checkLockStatus()) {
+        // Nếu tài khoản bị khóa, hiển thị cảnh báo cho người dùng
+        alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm thông tin.');
+    }
+}
+
+// Gọi hàm kiểm tra khi trang được tải lại
+checkLockStatusOnLoad();
+
 
 
 

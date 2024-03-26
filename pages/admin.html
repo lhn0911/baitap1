@@ -3,211 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <title>Document</title>
     <style>
-        .header{
-            display: flex;
-            background-color: black;
-            color: white;
-            padding: 5px;
-            gap: 50px;
-            height: 50px;
-            width: 700px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
-        .header-left{
-            background-color: rgb(224, 224, 238);
+        .header {
+            background-color: orangered;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            height: 77px;
+            display: flex;
+            gap: 100px;
+        }
+        .sidebar {
+            width: 250px;
             height: 100%;
-            width: 710px;
+            background-color: orangered;
+            color: #fff;
+            position: fixed;
+            top: 0px; /* Height of header */
+            left: 0;
+            overflow-y: auto;
         }
-        .quanly{
-            border: 0;
-            background-color: rgb(224, 224, 238);
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            border-bottom: 1px solid #555;
+        }
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar ul li a:hover {
+            background-color: #555;
+        }
+        .content {
+            margin-left: 350px;
+            padding: 100px;
+            
+        }
+        .content h2 {
+            color: #333;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        table {
+            width: 100%;  
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        .shoplogo-container {
             display: flex;
-
+            justify-content: flex-start;
+            margin-bottom: 20px;
+            margin-left: 15px;
         }
-        .material-symbols-outlined{
-            display: inline-block;
-            align-items: center;
-            font-size: 20px;
+        .shoplogo {
+            width: 80px;
+        }
+        button{
+            background: none;
+            color: white;
+            border: 0;
+            font-size: 16px;
         }
         .tablequanly{
-           
+            width: 900px;
+            margin-left: -100px;
+            margin-top: -100px;
+            
+        }
+        .lock-btn{
+            background-color: red;
+        }
+        .delete-btn{
+            background-color: red;
+        }
+        .edit-product-btn{
+            background-color: red;
+        }
+        .delete-product-btn{
+            background-color: red;
+        }
+        .item{
+            display: flex;
+            align-items: center;
+            
         }
     </style>
 </head>
 <body>
-   <div class="header">
-    <p>Admin</p>
-    <p>Quay lại web</p>
-    <p>Liên hệ</p>
-    <p>Đơn hàng</p>
-   </div>
-    <div class="header-left">
-        <span class="material-symbols-outlined">home</span>Trang chủ Admin
-        <br>
-        <br>
-        <span class="material-symbols-outlined">menu</span>Danh mục
-        <button onclick="quanlyuser()" class="quanly"><p>Quản lý người dùng</p></button>
-        <button onclick="quanlysp()" class="quanly"><p>Quản lý sản phẩm</p></button>
-       </div>
-       <header class="header-right">
-    
-       </header>
-        <div id="quanlyuser" style="display: none;" class="tablequanly">
-            <h1>User Management</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Locked</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="userTableBody">
-               
-            </tbody>
-        </table>
+    <div class="header">
+        <button style="margin-left: 300px;" onclick="backhome()">Vào trang web</button>
+        <button>Liên hệ</button>
+        <button>Đơn hàng</button>
+        <div class="item">
+            <button onclick="admin()" style="margin-left: 300px;">
+                <span class="material-symbols-outlined">admin_panel_settings</span>Admin
+            </button>
         </div>
-        <div id="quanlysp" style="display: none;" class="tablequanly">
-            <h1>Quản lý sản phẩm</h1>
-            <table>
+    </div>
+    <div class="sidebar">
+        <ul>
+            <div class="shoplogo-container">
+                <img src="../asset/imgs/logo.png" class="shoplogo" alt="">
+                <img src="../asset/imgs/Screenshot_2024-03-11_114655-removebg-preview.png" class="shoplogo" alt="">
+            </div>
+            <li></li>
+            <li><a href="#">Trang chủ</a></li>
+            <li><button onclick="quanlyweb()">Quản lý giao diện</button></li>
+            <li><button onclick="quanlyuser()">Quản lý người dùng</button></li>
+            <li><button onclick="quanlysp()">Quản lý sản phẩm</button></li>
+            <li><a href="#">Đăng xuất</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div id="quanlyuser" style="display: none;" class="tablequanly">
+            <h1>Quản lý người dùng</h1>
+            <table border="1" >
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Hành động</th>
+                        <th style="text-align: center;">ID</th>
+                        <th style="text-align: center;">Họ </th>
+                        <th style="text-align: center;">Tên</th>
+                        <th style="text-align: center;">Email</th>
+                        <th style="text-align: center;">Trạng thái</th>
+                        <th style="text-align: center;">Hành động</th>
                     </tr>
                 </thead>
-                <tbody id="productTableBody">
-                    
+                <tbody id="userTableBody" >
+                   
                 </tbody>
             </table>
         </div>
-        <div>
-
+        <div id="quanlysp" style="display: none;" class="tablequanly">
+            <h1>Quản lý sản phẩm</h1>
+            <table border="1">
+                <thead>
+                    <tr >
+                        <th style="text-align: center;">ID</th>
+                        <th style="text-align: center;">Tên sản phẩm</th>
+                        <th style="text-align: center;">Ảnh</th>
+                        <th style="text-align: center;">Số lượng</th>
+                        <th style="text-align: center;">Giá</th>
+                        <th style="text-align: center;">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody" >
+                    
+                </tbody>
+                <button class="delete-product-btn" onclick="addProduct()">Thêm</button>
+            </table>
         </div>
-   </form>
-    <script>
-        function quanlyuser(){
-            document.getElementById("quanlyuser").style.display = "inline-block";
-            document.getElementById("quanlysp").style.display = "none";
-        }
-        function quanlysp(){
-            document.getElementById("quanlysp").style.display = "inline-block";
-            document.getElementById("quanlyuser").style.display = "none";
-        }
-        document.addEventListener("DOMContentLoaded", function () {
-            // Load user data from localStorage and render the table
-            renderUserTable();
+    </div>
+</div>
+<div id="themSanPham" style="display: none;" class="tablequanly">
+    <h1>Thêm sản phẩm mới</h1>
+    <form id="addProductForm">
+        <label for="productName">Tên sản phẩm:</label><br>
+        <input type="text" id="productName" name="productName"><br>
+        <label for="productQuatity">Số lượng:</label><br>
+        <input type="number" id="productQuatity" name="productQuantity"><br>
+        <label for="productPrice">Giá:</label><br>
+        <input type="number" id="productPrice" name="productPrice"><br>
+        <label for="productImage">Link ảnh sản phẩm:</label><br> <!-- Thêm input cho đường dẫn ảnh -->
+        <input type="text" id="productImage" name="productImage"><br><!-- Input để nhập đường dẫn ảnh -->
+        <label for="productSale" >Sale</label>
+        <input type="text" id="productSale" name="productSale"><br>
+        <button type="button" onclick="addProduct()">Thêm sản phẩm</button> <!-- Sử dụng type="button" để tránh submit form -->
+    </form>
+</div>
 
-            // Add event listeners for Lock, Edit, Delete, and Save buttons
-            document.getElementById("userTableBody").addEventListener("click", function(event) {
-                let target = event.target;
-                if (target.classList.contains("lock-btn")) {
-                    toggleLock(parseInt(target.dataset.index));
-                } else if (target.classList.contains("edit-btn")) {
-                    editUser(parseInt(target.dataset.index));
-                } else if (target.classList.contains("delete-btn")) {
-                    deleteUser(parseInt(target.dataset.index));
-                } else if (target.classList.contains("save-btn")) {
-                    saveUser(parseInt(target.dataset.index));
-                }
-            });
-        });
-
-        function renderUserTable() {
-            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
-            let userTableBody = document.getElementById("userTableBody");
-
-            formDataArray.forEach(function (user, index) {
-                let row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
-                    <td>${user.email}</td>
-                    <td>${user.lock}</td>
-                    <td>
-                        <button class="lock-btn" data-index="${index}">${user.lock === 'yes' ? 'Unlock' : 'Lock'}</button>
-
-                        <button class="delete-btn" data-index="${index}">Delete</button>
-                        
-                    </td>
-                `;
-                userTableBody.appendChild(row);
-            });
-        }
-
-        function toggleLock(index) {
-            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
-            let user = formDataArray[index];
-            user.lock = user.lock === 'yes' ? 'no' : 'yes'; // Toggle lock status
-            localStorage.setItem('formDataArray', JSON.stringify(formDataArray));
-
-            // Update the table with the new lock status
-            let userTableBody = document.getElementById("userTableBody");
-            let row = userTableBody.rows[index];
-            row.cells[4].innerText = user.lock;
-
-            // Change button text
-            let lockBtn = row.cells[5].querySelector('.lock-btn');
-            lockBtn.innerText = user.lock === 'yes' ? 'Unlock' : 'Lock';
-        }
-
-
-function deleteUser(index) {
-    let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
-    formDataArray.splice(index, 1); // Remove user from array
-    localStorage.setItem('formDataArray', JSON.stringify(formDataArray));
-
-    // Remove row from table
-    let userTableBody = document.getElementById("userTableBody");
-    userTableBody.deleteRow(index);
-}
-document.addEventListener("DOMContentLoaded", function () {
-    // Load user data from localStorage and render the table
-
-    renderProductTable();
-
-    // Add event listeners for Lock, Edit, Delete, and Save buttons
-    document.getElementById("userTableBody").addEventListener("click", function(event) {
-        let target = event.target;
-        if (target.classList.contains("lock-btn")) {
-            toggleLock(parseInt(target.dataset.index));
-        } else if (target.classList.contains("edit-btn")) {
-            editUser(parseInt(target.dataset.index));
-        } else if (target.classList.contains("delete-btn")) {
-            deleteUser(parseInt(target.dataset.index));
-        } else if (target.classList.contains("save-btn")) {
-            saveUser(parseInt(target.dataset.index));
-        }
-    });
-});
-
-function renderProductTable() {
-    let products = JSON.parse(localStorage.getItem('products')) || [];
-    let productTableBody = document.getElementById("productTableBody");
-
-    products.forEach(function (product, index) {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${product.name}</td>
-            <td>${product.price}</td>
-            <td>
-                <button class="edit-product-btn" data-index="${index}">Edit</button>
-                <button class="delete-product-btn" data-index="${index}">Delete</button>
-            </td>
-        `;
-        productTableBody.appendChild(row);
-    });
-}
-
-</script>
+    </div>
+    <script src="../js/admin.js"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@
 //         sale:"5%",
 //         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
+//         quatity:"1000",
 //     },
 //     {
 //         image:"../asset/imgs/bo1.jpg",
@@ -16,6 +17,7 @@
 //         sale:"10%",
 //         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
+//         quatity:"1000",
 //     },
 //     {
 //         image:"../asset/imgs/b1.jpg",
@@ -25,6 +27,7 @@
 //         sale:"15%",
 //         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
+//         quatity:"1000",
 //     },
 //     {
 //         image:"../asset/imgs/c1.jpg",
@@ -34,6 +37,7 @@
 //         sale:"18%",
 //         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
+//         quatity:"1000",
 //     },
 //     {
 //         image:"../asset/imgs/cb1.jpg",
@@ -44,6 +48,7 @@
 
 //         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
+//         quatity:"1000",
 //     },
 //     {
 //         image:"../asset/imgs/quan.jpg",
@@ -53,6 +58,7 @@
 //         sale:"45%",
 //         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
+//         quatity:"1000",
 //     },
 //     {
 //         image:"../asset/imgs/set1.jpg",
@@ -62,6 +68,7 @@
 //         sale:"50%",
 //         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
+//         quatity:"1000",
 //     },
 //     {
 //         image:"../asset/imgs/comboo1.jpg",
@@ -71,47 +78,57 @@
 //         sale:"90%",
 //         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
+//         quatity:"1000",
 //     },
 // ]
 // localStorage.setItem("products", JSON.stringify(products));
+
+
+
+// let admin = [
+//     {
+//       email: "admin@gmail.com",
+//       pass: "admin",
+//     }
+// ]
+// localStorage.setItem("admin",JSON.stringify(admin));
+
+
 let products= JSON.parse(localStorage.getItem('products'));
 console.log(products);
-//
 
-//
-function renderProducts(){
+function renderProducts() {
     let element = "";
-    for(let i=0;i<products.length;i++){
-        element += 
-        `
+    for (let i = 0; i < products.length; i++) {
+        element +=
+            `
         <div class="sanpham">
-                
-                    <img class="img" src="${products[i].image}">
-                    <div class="sale">${products[i].sale}</div>
-                    <span class="detail"><button onclick="showProductDetail(${products[i].id})">Chi tiết</button></span>
-
-                
-                <div class="thongtin">
-                    <p>Loại</p>
-                    <b>${products[i].name}</b>
-                </div>
-                <div class="thongtin">
-                    <p>Giá</p>
-                    <b>${products[i].price}</b>
-                </div>
-                <div class="thongtin">
-                   <p>Thêm</p>
-                    <button><span class="material-symbols-outlined">
-                    add_shopping_cart
-                    </span></button>
-                </div>
-                
+            <img class="img" src="${products[i].image}" id="product_${products[i].id}">
+            <div class="sale">${products[i].sale}</div>
+            <span class="detail"><button onclick="showProductDetail(${products[i].id})">Chi tiết</button></span>
+            <div class="thongtin">
+                <p>Loại</p>
+                <b>${products[i].name}</b>
             </div>
-        `
+            <div class="thongtin">
+                <p>Giá</p>
+                <b>${products[i].price}</b>
+            </div>
+            <div class="thongtin">
+                <p>Thêm</p>
+                <button onclick="addToCart(${products[i].id})">
+                    <span class="material-symbols-outlined">
+                        add_shopping_cart
+                    </span>
+                </button>
+            </div>
+        </div>
+        `;
     }
-    console.log(element)
-    document.getElementsByClassName('container')[0].innerHTML=element;
+    document.getElementsByClassName('container')[0].innerHTML = element;
 }
+
+
 renderProducts();
 
 
