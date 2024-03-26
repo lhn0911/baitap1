@@ -119,31 +119,35 @@
         </div>
     </form>
     <script>
-document.getElementById('signInButton').addEventListener('click', function(event) {
-    event.preventDefault();
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
-    let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
-    let user = formDataArray.find(user => user.email === email && user.password === password);
-    if (user) {
-        // Tạo đối tượng người dùng
-        let currentUser = {
-            id: user.id,
-            firstName: user.firstName,
-            email: user.email,
-            cart : [],
-            // Thêm thông tin khác nếu cần thiết
-        };
+        document.getElementById('signInButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+            let user = formDataArray.find(user => user.email === email && user.password === password);
+            if (user) {
+                // Kiểm tra trạng thái khóa của tài khoản
+                if (user.lock === 'yes') {
+                    // Nếu tài khoản bị khóa, hiển thị thông báo và không cho đăng nhập
+                    alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm thông tin.');
+                } else {
+                    // Nếu tài khoản không bị khóa, tiến hành đăng nhập
+                    let currentUser = {
+                        id: user.id,
+                        firstName: user.firstName,
+                        email: user.email,
+                        cart: [],
+                        lock: "no",
+                        // Thêm thông tin khác nếu cần thiết
+                    };
 
-        // Lưu đối tượng người dùng vào localStorage với key "currentUser"
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        
-        // Hiển thị thông báo đăng nhập thành công và thực hiện các hành động tiếp theo
-        document.getElementById('successMessage').style.display = 'block';
-    } else {
-        alert('Email hoặc mật khẩu không chính xác!');
-    }
-});
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    document.getElementById('successMessage').style.display = 'block';
+                }
+            } else {
+                alert('Email hoặc mật khẩu không chính xác!');
+            }
+        });
 
 
         document.getElementById('homeButton').addEventListener('click', function(event) {

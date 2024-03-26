@@ -5,7 +5,7 @@
 //         price:"199000",
 //         id:1,
 //         sale:"5%",
-//         size:["S","L","M","XL","2XL"],
+//         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
@@ -14,7 +14,7 @@
 //         price:"175000",
 //         id:2,
 //         sale:"10%",
-//         size:["S","L","M","XL","2XL"],
+//         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
@@ -23,7 +23,7 @@
 //         price:"500000",
 //         id:3,
 //         sale:"15%",
-//         size:["S","L","M","XL","2XL"],
+//         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
@@ -32,7 +32,7 @@
 //         price:"250000",
 //         id:4,
 //         sale:"18%",
-//         size:["S","L","M","XL","2XL"],
+//         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
@@ -42,7 +42,7 @@
 //         id:5,
 //         sale:"20%",
 
-//         size:["S","L","M","XL","2XL"],
+//         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
@@ -51,7 +51,7 @@
 //         price:"120000",
 //         id:6,
 //         sale:"45%",
-//         size:["S","L","M","XL","2XL"],
+//         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
@@ -60,7 +60,7 @@
 //         price:"200000",
 //         id:7,
 //         sale:"50%",
-//         size:["S","L","M","XL","2XL"],
+//         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
 //     },
 //     {
@@ -69,7 +69,7 @@
 //         price:"150000",
 //         id:8,
 //         sale:"90%",
-//         size:["S","L","M","XL","2XL"],
+//         size:["S","L","M","XL","2XL","Khác"],
 //         color:["Đen","Trắng","Xanh"],
 //     },
 // ]

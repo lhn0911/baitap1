@@ -80,113 +80,92 @@
     <button class="buy" onclick="submit()">Đặt hàng</button>
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Lấy dữ liệu từ local storage
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy dữ liệu từ local storage
+            let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-    // Kiểm tra xem người dùng đã đăng nhập chưa và có giỏ hàng không
-    if (currentUser && currentUser.cart) {
-        // Lặp qua từng mục trong cart và thêm vào tbody
-        let tbody = document.getElementById("cartList");
-        currentUser.cart.forEach((product, index) => {
-            let row = document.createElement("tr");
-            row.innerHTML = `
-                <td class="text">${index + 1}</td>
-                <td class="text">${product.name}</td>
-                <td class="text"><img src="${product.img}" alt="${product.name}" style="width: 100px; height:60px; object-fit: cover;"></td>
-                <td class="text">${product.price}</td>
-                <td class="text">${product.quantity}</td>
-                <td class="text">
-                    <button onclick="increaseQuantity(${index})">+</button>
-                    <button onclick="decreaseQuantity(${index})">-</button>
-                    <button onclick="removeItem(${index})">Xóa</button>
-                </td>
-                
-                <td class="text">${calculateTotal(product)}</td>
-                <td class="text"><input type="checkbox" id="checkbox${index}" onchange="calculateTotalPrice()"></td>
-            `;
-            tbody.appendChild(row);
+            // Kiểm tra xem người dùng đã đăng nhập chưa và có giỏ hàng không
+            if (currentUser && currentUser.cart) {
+                // Gọi hàm để hiển thị giỏ hàng
+                displayCart(currentUser.cart);
+            } else {
+                console.log("Không tìm thấy dữ liệu hoặc cart trong dữ liệu.");
+            }
         });
 
-        // Thiết lập trạng thái mặc định cho checkbox
-        setCheckboxState();
+        // Hàm hiển thị giỏ hàng
+        function displayCart(cart) {
+            let tbody = document.getElementById("cartList");
+            let total = 0;
 
-        // Tính tổng giá tiền khi tải trang
-        calculateTotalPrice();
-    } else {
-        console.log("Không tìm thấy dữ liệu hoặc cart trong dữ liệu.");
-    }
-});
- // hàm xóa sản phẩm
- function removeItem(index) {
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    currentUser.cart.splice(index, 1); // Xóa sản phẩm khỏi giỏ hàng
-    localStorage.setItem("currentUser", JSON.stringify(currentUser)); // Cập nhật giỏ hàng trên local storage
-    location.reload(); // Tải lại trang để cập nhật giỏ hàng
-}
-// Hàm tính tổng giá tiền của giỏ hàng
-function calculateTotalPrice() {
-    let total = 0;
-    let checkboxes = document.querySelectorAll('#cartTable tbody input[type="checkbox"]');
-    checkboxes.forEach((checkbox, index) => {
-        if (checkbox.checked) {
-            let row = checkbox.parentNode.parentNode;
-            let productPrice = parseFloat(row.getElementsByTagName('td')[6].innerText);
-            total += productPrice;
+            // Xóa nội dung cũ của tbody
+            tbody.innerHTML = '';
+
+            // Hiển thị từng sản phẩm trong giỏ hàng
+            cart.forEach((product, index) => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="text">${index + 1}</td>
+                    <td class="text">${product.name}</td>
+                    <td class="text"><img src="${product.img}" alt="${product.name}" style="width: 100px; height:60px; object-fit: cover;"></td>
+                    <td class="text">${product.price}</td>
+                    <td class="text">${product.quantity}</td>
+                    <td class="text">
+                        <button onclick="changeQuantity(${index}, 'increase')">+</button>
+                        <button onclick="changeQuantity(${index}, 'decrease')">-</button>
+                        <button onclick="removeItem(${index})">Xóa</button>
+                    </td>
+                    <td class="text">${calculateTotal(product)}</td>
+                    <td class="text"><input type="checkbox" id="checkbox${index}" onchange="calculateTotalPrice()"></td>
+                `;
+                tbody.appendChild(row);
+                total += calculateTotal(product);
+            });
+
+            // Hiển thị tổng giá tiền
+            document.getElementById("totalPrice").innerText = total.toFixed(2);
         }
-    });
-    document.getElementById("totalPrice").innerText = total.toFixed(2);
 
-    // Lưu tổng giá tiền vào local storage
-    localStorage.setItem("totalPrice", total.toFixed(2));
-}
+        // Hàm thay đổi số lượng sản phẩm trong giỏ hàng
+        function changeQuantity(index, action) {
+            let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            if (action === 'increase') {
+                currentUser.cart[index].quantity++;
+            } else if (action === 'decrease' && currentUser.cart[index].quantity > 1) {
+                currentUser.cart[index].quantity--;
+            }
+            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            displayCart(currentUser.cart);
+        }
 
-// Hàm tăng số lượng sản phẩm trong giỏ hàng
-function increaseQuantity(index) {
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    currentUser.cart[index].quantity++;
-    localStorage.setItem("currentUser", JSON.stringify(currentUser));
-    location.reload(); // Tải lại trang để cập nhật giỏ hàng
-}
+        // Hàm xóa sản phẩm khỏi giỏ hàng
+        function removeItem(index) {
+            let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            currentUser.cart.splice(index, 1);
+            localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            displayCart(currentUser.cart);
+        }
 
-// Hàm giảm số lượng sản phẩm trong giỏ hàng
-function decreaseQuantity(index) {
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (currentUser.cart[index].quantity > 1) {
-        currentUser.cart[index].quantity--;
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        location.reload(); // Tải lại trang để cập nhật giỏ hàng
-    }
-}
+        // Hàm tính tổng thành tiền của một sản phẩm
+        function calculateTotal(product) {
+            return parseFloat(product.price) * parseInt(product.quantity);
+        }
 
-// Hàm tính tổng thành tiền của một sản phẩm
-function calculateTotal(product) {
-    let price = parseFloat(product.price);
-    let quantity = parseInt(product.quantity);
-    let totalPrice = price * quantity;
-    return totalPrice;
-}
-
-// Hàm đặt trạng thái mặc định cho checkbox
-function setCheckboxState() {
-    let checkboxes = document.querySelectorAll('#cartTable tbody input[type="checkbox"]');
-    checkboxes.forEach((checkbox, index) => {
-        checkbox.checked = true; // Đặt mặc định là checked
-    });
-}
-
-// Hàm khi người dùng nhấn nút Đặt hàng
-// Hàm khi người dùng nhấn nút Đặt hàng
-function submit() {
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (currentUser && currentUser.cart && currentUser.cart.length > 0) {
-        // Giỏ hàng không trống, thực hiện thanh toán
-        window.open("popups.html", "popup", "width=400,height=400");
-    } else {
-        // Giỏ hàng trống, thông báo
-        alert("Có cái dell gì đâu mà mua!");
-    }
-}
+        // Hàm tính tổng giá tiền của giỏ hàng
+        function calculateTotalPrice() {
+            let total = 0;
+            let checkboxes = document.querySelectorAll('#cartTable tbody input[type="checkbox"]');
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    let row = checkbox.parentNode.parentNode;
+                    let productPrice = parseFloat(row.getElementsByTagName('td')[6].innerText);
+                    total += productPrice;
+                }
+            });
+            document.getElementById("totalPrice").innerText = total.toFixed(2);
+            localStorage.setItem("totalPrice", total.toFixed(2));
+        }
+    
 
 
     </script>

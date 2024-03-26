@@ -65,7 +65,7 @@ function addToCart(productId) {
         console.log("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
         return;
     }
-
+    
     // Lấy dữ liệu sản phẩm từ localStorage
     let products = JSON.parse(localStorage.getItem("products"));
     if (!products) {
