@@ -144,13 +144,7 @@ function checkLockStatusOnLoad() {
         alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm thông tin.');
     }
 }
-
-// Gọi hàm kiểm tra khi trang được tải lại
 checkLockStatusOnLoad();
-
-
-
-
 function poppups(){
     window.open("popup.html", "popup", "width=400,height=400");
 }

@@ -84,9 +84,9 @@
                 <input class="child" type="password" id="password" name="password" placeholder="Password*" required>
             </div>
             <div class="box">
-                    <div><input type="checkbox" required></div>
-                    <div><span class="text">I want to receive inspiration, marketing</span><br>
-                        <span class="text">promotions and updates via email.</span></div>
+                <div><input type="checkbox" id="termsCheckbox" required></div>
+                <div><span class="text">Agree to terms and services</span><br>
+                    <span class="text"></span></div>
             </div>
             <button id="signUpButton" style="width: 220px;background-color: rgb(69, 69, 247);"><span style="font-size: 10px;color:white;">SIGN UP</span></button>
             <a href="./login.html"><p id="message" style="font-size: 10px; color: rgba(65, 65, 255, 0.63);margin-left: 75px;">Already have an account?Sign in</p></a>
@@ -96,38 +96,40 @@
     <script>
     let signUpButton = document.getElementById('signUpButton');
     signUpButton.addEventListener('click', function(event) {
-    event.preventDefault();
-    let firstName = document.getElementById('firstName').value;
-    let lastName = document.getElementById('lastName').value;
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
-    if (firstName && lastName && email && password) {
-        if (email === 'admin@gmail.com') {
-            alert('Email admin@gmail.com không thể được sử dụng.');
-            return; // Dừng xử lý tiếp theo nếu email là admin@gmail.com
-        }
-        let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
-        let emailExists = formDataArray.some(data => data.email === email);
-        if (emailExists) {
-            alert('Email đã được sử dụng, vui lòng nhập email khác.');
+        event.preventDefault();
+        let firstName = document.getElementById('firstName').value;
+        let lastName = document.getElementById('lastName').value;
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+        let termsCheckbox = document.getElementById('termsCheckbox');
+
+        if (firstName && lastName && email && password && termsCheckbox.checked) {
+            if (email === 'admin@gmail.com') {
+                alert('Email admin@gmail.com cannot be used.');
+                return; // Dừng xử lý tiếp theo nếu email là admin@gmail.com
+            }
+            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+            let emailExists = formDataArray.some(data => data.email === email);
+            if (emailExists) {
+                alert('Email đã tồn tại!');
+            } else {
+                let formData = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    password: password,
+                    cart:[],
+                    id: Math.floor(Math.random()*999),
+                    lock:"no",
+                };
+                formDataArray.push(formData);
+                localStorage.setItem('formDataArray', JSON.stringify(formDataArray));
+                document.getElementById('message').innerText = "Đăng kí thành công, chuyển tới trang đăng nhập";
+            }
         } else {
-            let formData = {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                password: password,
-                cart:[],
-                id: Math.floor(Math.random()*999),
-                lock:"no",
-            };
-            formDataArray.push(formData);
-            localStorage.setItem('formDataArray', JSON.stringify(formDataArray));
-            document.getElementById('message').innerText = "Đăng kí thành công chuyển tới trang đăng nhập";
+            alert('Đồng ý với điều khoản và dịch vụ!');
         }
-    } else {
-        alert('Vui lòng nhập đủ thông tin.');
-    }
-});
+    });
     </script>
 </body>
 </html>

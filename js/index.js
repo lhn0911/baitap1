@@ -1,7 +1,7 @@
 // let products = [
 //     {
 //         image:"../asset/imgs/ao1.jpg",
-//         name:"áo",
+//         name:"Set caro",
 //         price:"199000",
 //         id:1,
 //         sale:"5%",
@@ -11,7 +11,7 @@
 //     },
 //     {
 //         image:"../asset/imgs/bo1.jpg",
-//         name:"quần",
+//         name:"Bộ quần áo thun nữ ",
 //         price:"175000",
 //         id:2,
 //         sale:"10%",
@@ -21,7 +21,7 @@
 //     },
 //     {
 //         image:"../asset/imgs/b1.jpg",
-//         name:"áo",
+//         name:"set mùa hè nữ",
 //         price:"500000",
 //         id:3,
 //         sale:"15%",
@@ -31,7 +31,7 @@
 //     },
 //     {
 //         image:"../asset/imgs/c1.jpg",
-//         name:"áo",
+//         name:"bộ quần áo The Bad God Flexy",
 //         price:"250000",
 //         id:4,
 //         sale:"18%",
@@ -41,7 +41,7 @@
 //     },
 //     {
 //         image:"../asset/imgs/cb1.jpg",
-//         name:"áo",
+//         name:"bộ quần áo thể thao",
 //         price:"100000",
 //         id:5,
 //         sale:"20%",
@@ -62,7 +62,7 @@
 //     },
 //     {
 //         image:"../asset/imgs/set1.jpg",
-//         name:"comboo",
+//         name:"Bộ quần áo nam mùa hè",
 //         price:"200000",
 //         id:7,
 //         sale:"50%",
@@ -72,7 +72,7 @@
 //     },
 //     {
 //         image:"../asset/imgs/comboo1.jpg",
-//         name:"comboo",
+//         name:"bộ quần áo thun",
 //         price:"150000",
 //         id:8,
 //         sale:"90%",
@@ -89,6 +89,7 @@
 //     {
 //       email: "admin@gmail.com",
 //       pass: "admin",
+//       cart: [],
 //     }
 // ]
 // localStorage.setItem("admin",JSON.stringify(admin));

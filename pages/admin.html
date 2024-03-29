@@ -111,6 +111,10 @@
             align-items: center;
             
         }
+        .tablequanly3{
+            margin-left: 600px;
+            margin-top: -300px;
+        }
     </style>
 </head>
 <body>
@@ -132,12 +136,12 @@
             </div>
             <li></li>
             <li><a href="#">Trang chủ</a></li>
-            <li><button onclick="quanlyweb()">Quản lý giao diện</button></li>
+            <li><button onclick="quanlydonhang()">Quản lý đơn hàng</button></li>
             <li><button onclick="quanlyuser()">Quản lý người dùng</button></li>
             <li><button onclick="quanlysp()">Quản lý sản phẩm</button></li>
-            <li><a href="#">Đăng xuất</a></li>
         </ul>
     </div>
+    <!-- quản lý người dùng -->
     <div class="content">
         <div id="quanlyuser" style="display: none;" class="tablequanly">
             <h1>Quản lý người dùng</h1>
@@ -157,6 +161,7 @@
                 </tbody>
             </table>
         </div>
+        <!-- quản lý sản phẩm -->
         <div id="quanlysp" style="display: none;" class="tablequanly">
             <h1>Quản lý sản phẩm</h1>
             <table border="1">
@@ -181,6 +186,8 @@
 <div id="themSanPham" style="display: none;" class="tablequanly">
     <h1>Thêm sản phẩm mới</h1>
     <form id="addProductForm">
+        <label for="productId">ID sản phẩm:</label><br>
+        <input type="number" id="productId" name="productId"><br>
         <label for="productName">Tên sản phẩm:</label><br>
         <input type="text" id="productName" name="productName"><br>
         <label for="productQuatity">Số lượng:</label><br>
@@ -195,6 +202,22 @@
     </form>
 </div>
 
+    </div>
+
+    <!--quản lý đơn hàng -->
+    <div id="quanlydonhang" style="display: none;" class="tablequanly3">
+        <h1>Quản lý đơn hàng</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Đơn hàng</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="displayOrders">
+
+            </tbody>
+        </table>
     </div>
     <script src="../js/admin.js"></script>
 </body>

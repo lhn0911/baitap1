@@ -120,60 +120,56 @@
     </form>
     <script>
         document.getElementById('signInButton').addEventListener('click', function(event) {
-            event.preventDefault();
-            let email = document.getElementById('email').value;
-            let password = document.getElementById('password').value;
+    event.preventDefault();
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
 
-            // Kiểm tra nếu tài khoản người dùng thông thường bị khóa
-            let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
-            let user = formDataArray.find(user => user.email === email && user.password === password);
-            if (user && user.lock === 'yes') {
+    // Kiểm tra dữ liệu admin trong localStorage
+    let adminData = JSON.parse(localStorage.getItem('admin')) || [];
+
+    // Kiểm tra xem người dùng có trùng khớp với tài khoản admin không
+    let isAdmin = adminData.some(admin => admin.email === email && admin.pass === password);
+
+    if (isAdmin) {
+        // Đăng nhập thành công với tài khoản admin
+        let currentUser = {
+            id: -1, // ID của admin có thể được đặt là một giá trị duy nhất như -1 để phân biệt với người dùng
+            firstName: 'Admin',
+            email: email,
+            lock: "no" // Đây là admin, không cần quản lý trạng thái khóa
+            // Thêm thông tin khác nếu cần thiết
+        };
+
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        document.getElementById('successMessage').style.display = 'block';
+    } else {
+        // Không phải tài khoản admin, tiếp tục kiểm tra với các tài khoản người dùng thông thường
+        let formDataArray = JSON.parse(localStorage.getItem('formDataArray')) || [];
+        let user = formDataArray.find(user => user.email === email && user.password === password);
+        if (user) {
+            // Kiểm tra trạng thái khóa của tài khoản
+            if (user.lock === 'yes') {
+                // Nếu tài khoản bị khóa, hiển thị thông báo và không cho đăng nhập
                 alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm thông tin.');
-                return; // Ngăn chặn việc tiếp tục xử lý đăng nhập khi tài khoản đã bị khóa
-            }
-
-            // Kiểm tra xem đăng nhập là của người dùng thông thường hay admin
-            let adminData = JSON.parse(localStorage.getItem('adminData')) || [];
-            if (adminData.length > 0 && adminData[0].email === email && adminData[0].pass === password) {
-                // Nếu trùng khớp, đăng nhập với vai trò admin
+            } else {
+                // Nếu tài khoản không bị khóa, tiến hành đăng nhập
                 let currentUser = {
-                    id: -1, // ID của admin có thể được đặt là một giá trị duy nhất như -1 để phân biệt với người dùng
-                    firstName: 'Admin',
-                    email: email,
-                    cart: [],
-                    lock: "no", // Đây là admin, không cần quản lý trạng thái khóa
+                    id: user.id,
+                    firstName: user.firstName,
+                    email: user.email,
+                    lock: "no",
                     // Thêm thông tin khác nếu cần thiết
                 };
-
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 document.getElementById('successMessage').style.display = 'block';
-            } else {
-                // Nếu không phải admin, tiếp tục kiểm tra với các tài khoản người dùng thông thường
-                let user = formDataArray.find(user => user.email === email && user.password === password);
-                if (user) {
-                    // Kiểm tra trạng thái khóa của tài khoản
-                    if (user.lock === 'yes') {
-                        // Nếu tài khoản bị khóa, hiển thị thông báo và không cho đăng nhập
-                        alert('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm thông tin.');
-                    } else {
-                        // Nếu tài khoản không bị khóa, tiến hành đăng nhập
-                        let currentUser = {
-                            id: user.id,
-                            firstName: user.firstName,
-                            email: user.email,
-                            cart: [],
-                            lock: "no",
-                            // Thêm thông tin khác nếu cần thiết
-                        };
-
-                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                        document.getElementById('successMessage').style.display = 'block';
-                    }
-                } else {
-                    alert('Email hoặc mật khẩu không chính xác!');
-                }
             }
-        });
+        } else {
+            // Không tìm thấy tài khoản trong dữ liệu
+            alert('Email hoặc mật khẩu không chính xác!');
+        }
+    }
+});
+
 
         document.getElementById('homeButton').addEventListener('click', function(event) {
             event.preventDefault();

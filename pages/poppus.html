@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Đơn hàng</th>
+                
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody id="tabletbody">
+
+        </tbody>
+    </table>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            choduyet();
+        });
+
+        function choduyet(){
+            let tbody = document.getElementById('tabletbody');
+            if (!tbody) return; // Đảm bảo tbody tồn tại trước khi tiếp tục
+
+            let orders = JSON.parse(localStorage.getItem('danhSachDonHang')); // Lấy danh sách đơn hàng từ local storage
+            tbody.innerHTML = '';
+
+            // Kiểm tra xem có đơn hàng trong local storage không
+            if (orders && orders.length > 0) {
+                orders.forEach((danhSachDonHang) => {
+                    let row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td class="text">${danhSachDonHang.sodon}</td>
+                        <td class="text">${danhSachDonHang.number === 1 ? 'Chờ duyệt' : 'Đặt hàng thành công'}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } else {
+                // Nếu không có đơn hàng, hiển thị thông báo rỗng
+                let row = document.createElement("tr");
+                row.innerHTML = `<td colspan="3">Không có đơn hàng</td>`;
+                tbody.appendChild(row);
+            }
+        }
+    </script>
+</body>
+</html>
